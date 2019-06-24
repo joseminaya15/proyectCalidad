@@ -35,10 +35,9 @@ $('#home .owl-carousel').owlCarousel({
 	dots: false,
 	autoplayTimeout : 3000
 });
-var arrayLimiteInferior = [];
-var arrayLimiteSuperior = [];
-var arrayValorEspero =[];
-var arrayValores = [];
+var minRate = "";
+var mediumRate = "";
+var maxRate = "";
 function sendMetricas(){
 	var limitesuperior 	= $('#limitesuperior').val();
 	var limiteinferior  = $('#limiteinferior').val();
@@ -55,53 +54,134 @@ function sendMetricas(){
 		msj('error', 'Valor esperado debe completarse');
 		return;
 	}
-	arrayLimiteInferior.push(limiteinferior);
-	arrayLimiteSuperior.push(limitesuperior);
-	arrayValorEspero.push(valoresperado);
-	$.ajax({
-		data : {Limitesuperior  : limitesuperior,
-				Limiteinferior  : limiteinferior,
-				Valoresperado	: valoresperado},
-		url  : 'home/register',
-		type : 'POST'
-	}).done(function(data){
-		try {
-			data = JSON.parse(data);
-			if(data.error == 0){
-				
-				$('.js-input').find('input').val('');
-				msj('success', data.msj);
-        	}else{
-        		msj('error', data.msj);
-        		return;
-        	}
-		} catch (err) {
-			msj('error', err.message);
-		}
-	});
+	minRate = limiteinferior;
+	mediumRate = valoresperado;
+	maxRate = limitesuperior;
+	$('.jm-valores').removeClass('active');
+	$('.jm-metricas').addClass('active');
+	// getGraphicMetric(minRate,mediumRate,maxRate);
+	// $.ajax({
+	// 	data : {Limitesuperior  : limitesuperior,
+	// 			Limiteinferior  : limiteinferior,
+	// 			Valoresperado	: valoresperado},
+	// 	url  : 'home/register',
+	// 	type : 'POST'
+	// }).done(function(data){
+	// 	try {
+	// 		data = JSON.parse(data);
+	// 		if(data.error == 0){
+	// 			$('.js-input').find('input').val('');
+	// 			getGraphicMetric(limiteinferior,valoresperado,limitesuperior);
+    //     	}else{
+    //     		msj('error', data.msj);
+    //     		return;
+    //     	}
+	// 	} catch (err) {
+	// 		msj('error', err.message);
+	// 	}
+	// });
 }
+var arrayValores = [];
+// var jsonValores = "";
 function sendValores(){
 	var valor 	= $('#valor').val();
 	if(valor == null || valor == '') {
 		msj('error', 'Valor debe completarse');
 		return;
 	}
-	$.ajax({
-		data : {Valor  : valor},
-		url  : 'home/valor',
-		type : 'POST'
-	}).done(function(data){
-		try {
-			data = JSON.parse(data);
-			if(data.error == 0){
-				$('.js-input').find('input').val('');
-				msj('success', data.msj);
-        	}else{
-        		msj('error', data.msj);
-        		return;
-        	}
-		} catch (err) {
-			msj('error', err.message);
+	arrayValores.push(parseInt(valor));
+	// console.log(arrayValores);
+	// var jsonValores = JSON.stringify(arrayValores);
+	getGraphicMetric();
+	// $.ajax({
+	// 	data : {Valor  : valor},
+	// 	url  : 'home/valor',
+	// 	type : 'POST'
+	// }).done(function(data){
+	// 	try {
+	// 		data = JSON.parse(data);
+	// 		if(data.error == 0){
+	// 			$('.js-input').find('input').val('');
+	// 			msj('success', data.msj);
+    //     	}else{
+    //     		msj('error', data.msj);
+    //     		return;
+    //     	}
+	// 	} catch (err) {
+	// 		msj('error', err.message);
+	// 	}
+	// });
+}
+function getGraphicMetric(){
+	Highcharts.chart('container', {
+		title: {
+			text: 'Sistema de Gestion de Calidad'
+		},
+		subtitle: {
+			text: 'Métricas de calidad basado en la estandarización de código fuente de clases.'
+		},
+		yAxis: {
+			title: {
+				text: 'Exchange rate'
+			},
+			plotLines: [{
+				value: minRate,
+				color: 'red',
+				dashStyle: 'shortdash',
+				width: 2,
+				label: {
+					text: 'Limite Inferior'
+				}
+			}, {
+				value: mediumRate,
+				color: 'black',
+				dashStyle: 'shortdash',
+				width: 2,
+				label: {
+					text: 'Valor esperado'
+				}
+			}, {
+				value: maxRate,
+				color: 'green',
+				dashStyle: 'shortdash',
+				width: 2,
+				label: {
+					text: 'Limite Superior'
+				}
+			}]
+		},
+		legend: {
+			layout: 'vertical',
+			align: 'right',
+			verticalAlign: 'middle'
+		},
+		plotOptions: {
+			series: {
+				label: {
+					connectorAllowed: false
+				},
+				pointStart: 2010
+			}
+		},
+		series: [{
+			name: 'Limite Superior',
+			data: arrayValores
+			// data: [4, 5, 6, 8, 7]
+		}],
+		responsive: {
+			rules: [{
+				condition: {
+					maxWidth: 500
+				},
+				chartOptions: {
+					legend: {
+						layout: 'horizontal',
+						align: 'center',
+						verticalAlign: 'bottom'
+					}
+				}
+			}]
 		}
 	});
+	console.log(arrayValores);
 }

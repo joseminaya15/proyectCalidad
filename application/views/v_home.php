@@ -76,45 +76,49 @@
     </section>
     <section id="register" class="js-section">
         <div class="js-container">
-            <div class="js-title">
-                <h2>Registre sus m&eacute;tricas</h2>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-4">
-                     <div class="js-input">
-                        <label for="text">Limite Superior*</label>
-                        <input type="text" id="limitesuperior" >
+            <div class="jm-metricas">
+                <div class="js-title">
+                    <h2>Registre sus m&eacute;tricas</h2>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="js-input">
+                            <label for="text">Limite Superior*</label>
+                            <input type="text" id="limitesuperior" >
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="js-input">
+                            <label for="text">Limite Inferior*</label>
+                            <input type="text" id="limiteinferior">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="js-input">
+                            <label for="text">Valor esperado*</label>
+                            <input type="text" id="valoresperado">
+                        </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-4">
-                    <div class="js-input">
-                        <label for="text">Limite Inferior*</label>
-                        <input type="text" id="limiteinferior">
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-4">
-                    <div class="js-input">
-                        <label for="text">Valor esperado*</label>
-                        <input type="text" id="valoresperado">
-                    </div>
+                <div class="js-section--button">
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect js-button js-login" onclick="sendMetricas()">Registrar M&eacute;tricas</button>
                 </div>
             </div>
-            <div class="js-section--button text-center">
-                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect js-button js-login" onclick="sendMetricas()">Registrar M&eacute;tricas</button>
-            </div>
-            <div class="js-title">
-                <h2>Ingrese sus valores</h2>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-4">
-                     <div class="js-input">
-                        <label for="text">Valor*</label>
-                        <input type="text" id="valor" >
+            <div class="jm-valores active">
+                <div class="js-title">
+                    <h2>Ingrese sus valores</h2>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="js-input">
+                            <label for="text">Valor*</label>
+                            <input type="text" id="valor" >
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="js-section--button text-center">
-                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect js-button js-login" onclick="sendValores()">Registar valores</button>
+                <div class="js-section--button">
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect js-button js-login" onclick="sendValores()">Registar valores</button>
+                </div>
             </div>
         </div>
     </section>
@@ -146,65 +150,5 @@
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
-
-    <script type="text/javascript">
-        Highcharts.chart('container', {
-            title: {
-                text: 'Sistema de Gestion de Calidad'
-            },
-            subtitle: {
-                text: 'Métricas de calidad basado en la estandarización de código fuente de clases.'
-            },
-            yAxis: {
-                title: {
-                    text: 'Number of Employees'
-                }
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle'
-            },
-            plotOptions: {
-                series: {
-                    label: {
-                        connectorAllowed: false
-                    },
-                    pointStart: 2010
-                }
-            },
-            series: [{
-                name: 'Limite Superior',
-                data: varLimiteSuperior
-                // data: [10,10,10]
-            }, {
-                name: 'Valores',
-                data: varValores
-                // data: [7,8,9]
-            }, {
-                name: 'Valor Esperado',
-                data: varValorEsperado
-                // data: [5,5,5]
-            }, {
-                name: 'Limite Inferior',
-                data: varLimiteInferior
-                // data: [3,3,3]
-            }],
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            layout: 'horizontal',
-                            align: 'center',
-                            verticalAlign: 'bottom'
-                        }
-                    }
-                }]
-            }
-        });
-    </script>
 </body>
 </html>
